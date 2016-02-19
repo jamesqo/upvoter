@@ -1,10 +1,28 @@
 #!/usr/bin/env bash
 
+getcmds()
+{
+    # find all files in $(searchdirs) that start with 'upvoter-'
+    searchdirs | xargs -i find {} -type f -name "upvoter-*" -maxdepth 1
+}
+
 getswd()
 {
     ACTUAL_PATH=$(readlink -f "${BASH_SOURCE[0]}")
     SCRIPT_DIR=$(dirname "$ACTUAL_PATH")
     echo "$SCRIPT_DIR"
+}
+
+pathdirs()
+{
+    # get all dirs in $PATH
+    RESULT=${PATH//:/$'\n'} # replace : (delim) with newline
+    echo "$RESULT"
+}
+
+searchdirs()
+{
+    pathdirs && getswd
 }
 
 version()
@@ -20,9 +38,7 @@ echo 'Basic usage: upvoter [command] [options]...'
 echo
 echo 'Commands can be any one of the following:'
 
-COMMANDS=(add help version)
-
-for COMMAND in "${COMMANDS[@]}"
+getcmds | while read -r COMMAND
 do
     echo " - $COMMAND"
 done
