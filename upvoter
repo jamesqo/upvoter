@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 run()
 {
@@ -21,7 +21,8 @@ esac
 
 shift
 
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd -P)"
+SCRIPT_DIR=$(dirname "${BASH_SOURCE[0]}")
+SCRIPT_DIR=$(cd "$SCRIPT_DIR" && pwd -P) # resolve symlinks
 PROGRAM="upvoter-$SUFFIX"
 
 if ! run "$PROGRAM" "$@" && ! run "$SCRIPT_DIR/$PROGRAM" "$@"; then
