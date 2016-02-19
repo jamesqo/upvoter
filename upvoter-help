@@ -40,7 +40,7 @@ echo 'Commands can be any one of the following:'
 
 getcmds | while read -r COMMAND
 do
-    echo " - $COMMAND"
+    echo " - ${COMMAND#upvoter-}"
 done
 
 echo
