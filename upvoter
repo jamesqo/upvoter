@@ -1,8 +1,20 @@
 #!/usr/bin/env bash
 
+getswd()
+{
+    ACTUAL_PATH=$(readlink -f "${BASH_SOURCE[0]}") # resolve symlinks
+    SCRIPT_DIR=$(dirname "$ACTUAL_PATH")
+    echo "$SCRIPT_DIR"
+}
+
+help()
+{
+    "$(getswd)/upvoter-help" "$@"
+}
+
 run()
 {
-    PROGRAM="$1"
+    PROGRAM=$1
     shift
     type "$PROGRAM" &> /dev/null && exec "$PROGRAM" "$@"
 }
@@ -15,17 +27,15 @@ case "$1" in
         SUFFIX=version
         ;;
     *)
-        SUFFIX="$1"
+        SUFFIX=$1
         ;;
 esac
 
 shift
 
-SCRIPT_DIR=$(dirname "${BASH_SOURCE[0]}")
-SCRIPT_DIR=$(cd "$SCRIPT_DIR" && pwd -P) # resolve symlinks
-PROGRAM="upvoter-$SUFFIX"
+PROGRAM=upvoter-$SUFFIX
 
-if ! run "$PROGRAM" "$@" && ! run "$SCRIPT_DIR/$PROGRAM" "$@"; then
-    echo "$PROGRAM was not found. Please try adding it to $SCRIPT_DIR or your \$PATH." > &2
+if ! run "$PROGRAM" "$@" && ! run "$(getswd)/$PROGRAM" "$@"; then
+    help > &2
     exit 1
 fi
