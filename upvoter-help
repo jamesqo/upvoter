@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+getswd()
+{
+    ACTUAL_PATH=$(readlink -f "${BASH_SOURCE[0]}")
+    SCRIPT_DIR=$(dirname "$ACTUAL_PATH")
+    echo "$SCRIPT_DIR"
+}
+
+version()
+{
+    "$(getswd)/upvoter-version" "$@"
+}
+
+echo 'upvoter is a command-line util that automatically upvotes your Reddit posts.'
+echo "Version: $(version)"
+echo 'Find us on GitHub at: https://github.com/jamesqo/upvoter'
+echo
+echo 'Basic usage: upvoter [command] [options]...'
+echo
+echo 'Commands can be any one of the following:'
+
+COMMANDS=(add help version)
+
+for COMMAND in "${COMMANDS[@]}"
+do
+    echo " - $COMMAND"
+done
+
+echo
+echo 'For more help on a specific command, type `upvoter [command] --help`.'
