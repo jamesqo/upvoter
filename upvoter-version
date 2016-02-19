@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+getswd()
+{
+    ACTUAL_PATH=$(readlink -f "${BASH_SOURCE[0]}")
+    SCRIPT_DIR=$(dirname "$ACTUAL_PATH")
+    echo "$SCRIPT_DIR"
+}
+
+exec cat "$(getswd)/VERSION"
