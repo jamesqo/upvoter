@@ -1,1 +1,30 @@
-#!/usr/bin/env bash
+#!/bin/sh
+
+run()
+{
+    PROGRAM="$1"
+    shift
+    type "$PROGRAM" &> /dev/null && exec "$PROGRAM" "$@"
+}
+
+case "$1" in
+    '-?'|-h|--help)
+        SUFFIX=help
+        ;;
+    -v|--version)
+        SUFFIX=version
+        ;;
+    *)
+        SUFFIX="$1"
+        ;;
+esac
+
+shift
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd -P)"
+PROGRAM="upvoter-$SUFFIX"
+
+if ! run "$PROGRAM" "$@" && ! run "$SCRIPT_DIR/$PROGRAM" "$@"; then
+    echo "$PROGRAM was not found. Please try adding it to $SCRIPT_DIR or your \$PATH." > &2
+    exit 1
+fi
