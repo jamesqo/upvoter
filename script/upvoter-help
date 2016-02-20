@@ -3,7 +3,10 @@
 getcmds()
 {
     # find all executable files/symlinks in $(searchdirs) that start with 'upvoter-'
-    searchdirs | xargs -i find -L {} -name 'upvoter-*' -type f -maxdepth 1 -perm +111
+    # then basename them (yes, the -i is necessary)
+    searchdirs |
+    xargs -i find -L {} -name 'upvoter-*' -type f -maxdepth 1 -perm +111 2> /dev/null |
+    xargs -i basename {}
 }
 
 getswd()
@@ -35,7 +38,8 @@ pathdirs()
 
 searchdirs()
 {
-    pathdirs && getswd
+    pathdirs
+    getswd
 }
 
 version()
