@@ -49,6 +49,6 @@ shift
 PROGRAM=upvoter-$SUFFIX
 
 if ! run "$PROGRAM" "$@" && ! run "$(getswd)/$PROGRAM" "$@"; then
-    help > &2
+    help 1>&2
     exit 1
 fi
