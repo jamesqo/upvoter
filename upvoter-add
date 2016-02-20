@@ -1,0 +1,74 @@
+#!/usr/bin/env bash
+
+help()
+{
+    echo 'upvoter-add: Adds a Reddit account to your upvote list.'
+    echo
+    echo 'Usage: upvoter add [--] [-u|--user] username [-p|--pass password]'
+    echo
+    echo 'If you choose not to specify a password from the command line,'
+    echo 'you will be prompted for it when you run this script.'
+}
+
+securedir()
+{
+    # make sure the dir and its parents are only writable by owners
+    DIRECTORY=$1
+    while [[ $DIRECTORY != / ]]
+    do
+        chmod go-w "$DIRECTORY" # remove write perms for group/others
+        DIRECTORY=$(dirname "$DIRECTORY")
+    done
+}
+
+if [[ ! $# -gt 0 ]]; then
+    help 1>&2
+    exit 1
+fi
+
+while [[ $# -gt 0 ]]
+do
+    case "$1" in
+        '-?'|-h|--help)
+            help
+            exit 0
+            ;;
+        -u|--user)
+            shift
+            USERNAME=$1
+            ;;
+        -p|--pass)
+            shift
+            PASSWORD=$1
+            ;;
+        --)
+            shift
+            USERNAME=$@
+            ;;
+        *)
+            USERNAME=$1
+            ;;
+    esac
+    shift
+done
+
+# setup the creds store
+CREDS_STORE=~/.upvoter/add
+mkdir -p "$CREDS_STORE"
+securedir "$CREDS_STORE"
+
+# get the password if the user hasn't entered one
+if [[ -z "$PASSWORD" ]]; then
+    read -sp 'Enter your reddit password:' PASSWORD
+fi
+
+# base64 encode the credentials
+BASE64_USERNAME=$(echo "$USERNAME" | base64)
+BASE64_PASSWORD=$(echo "$PASSWORD" | base64)
+
+USERNAME_FILE=$CREDS_STORE/green_eg.gs
+PASSWORD_FILE=$CREDS_STORE/and_h.am
+
+# write them out
+echo "$BASE64_USERNAME" > "$USERNAME_FILE"
+echo "$BASE64_PASSWORD" > "$PASSWORD_FILE"
