@@ -7,4 +7,4 @@ getswd()
     echo "$SCRIPT_DIR"
 }
 
-exec cat "$(getswd)/VERSION"
+exec cat "$(getswd)/../VERSION"
