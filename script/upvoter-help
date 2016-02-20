@@ -2,7 +2,7 @@
 
 getcmds()
 {
-    # find all executable files in $(searchdirs) that start with 'upvoter-'
+    # find all executable files/symlinks in $(searchdirs) that start with 'upvoter-'
     searchdirs | xargs -i find {} -type f -or -type l -name "upvoter-*" -maxdepth 1 -perm +111
 }
 
@@ -29,8 +29,8 @@ here()
 pathdirs()
 {
     # get all dirs in $PATH
-    RESULT=${PATH//:/$'\n'} # replace : (delim) with newline
-    echo "$RESULT"
+    SPLIT=${PATH//:/$'\n'} # replace : (delim) with newline
+    echo "$SPLIT" | xargs ls -1d 2> /dev/null # remove dirs that don't exist
 }
 
 searchdirs()
