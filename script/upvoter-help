@@ -3,7 +3,7 @@
 getcmds()
 {
     # find all files in $(searchdirs) that start with 'upvoter-'
-    searchdirs | xargs -i find {} -type f -name "upvoter-*" -maxdepth 1
+    searchdirs | xargs -i find '{}' -type f -name "upvoter-*" -maxdepth 1
 }
 
 getswd()
