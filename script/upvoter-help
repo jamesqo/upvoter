@@ -42,10 +42,17 @@ searchdirs()
     getswd
 }
 
+snoo()
+{
+    cat "$(getswd)/snoo"
+}
+
 version()
 {
     "$(getswd)/upvoter-version" "$@"
 }
+
+snoo
 
 echo
 echo 'upvoter is a command-line util that automatically upvotes your Reddit posts.'
