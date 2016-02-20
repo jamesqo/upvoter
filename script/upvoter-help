@@ -50,9 +50,9 @@ version()
 echo
 echo 'upvoter is a command-line util that automatically upvotes your Reddit posts.'
 echo
-echo "version: $(version)"
+echo "Version: $(version)"
 echo
-echo 'basic usage: upvoter [command] [options]...'
+echo 'Basic usage: upvoter [command] [options]...'
 echo
 echo 'Commands can be any one of the following:'
 echo
