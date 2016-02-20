@@ -2,8 +2,8 @@
 
 getcmds()
 {
-    # find all files in $(searchdirs) that start with 'upvoter-'
-    searchdirs | xargs -i find {} -type f -name "upvoter-*" -maxdepth 1
+    # find all executable files in $(searchdirs) that start with 'upvoter-'
+    searchdirs | xargs -i find {} -type f -or -type l -name "upvoter-*" -maxdepth 1 -perm +111
 }
 
 getswd()
