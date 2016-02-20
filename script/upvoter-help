@@ -3,7 +3,7 @@
 getcmds()
 {
     # find all executable files/symlinks in $(searchdirs) that start with 'upvoter-'
-    searchdirs | xargs -i find {} -type f -or -type l -name "upvoter-*" -maxdepth 1 -perm +111
+    searchdirs | xargs -i find {} -name 'upvoter-*' -maxdepth 1 -perm +111 -type f -or -type l
 }
 
 getswd()
