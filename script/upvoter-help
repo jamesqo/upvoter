@@ -44,7 +44,7 @@ searchdirs()
 
 snoo()
 {
-    cat "$(getswd)/snoo"
+    cat "$(getswd)/../snoo"
 }
 
 version()
