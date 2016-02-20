@@ -20,4 +20,4 @@ here()
     echo "$RESULT"
 }
 
-exec cat "$(getswd)/VERSION"
+exec cat "$(getswd)/../VERSION"
