@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+getcmds()
+{
+    # find all executable files/symlinks in $(searchdirs) that start with 'upvoter-'
+    # then basename them (yes, the -i is necessary)
+    searchdirs |
+    xargs -i find -L {} -name 'upvoter-*' -type f -maxdepth 1 -perm +111 2> /dev/null |
+    xargs -i basename {}
+}
+
+getswd()
+{
+    dirname "$(here)"
+}
+
+here()
+{
+    RESULT=${BASH_SOURCE[0]}
+
+    # resolve symlinks (readlink -f can't be used on OSX)
+    while [[ -h $RESULT ]]
+    do
+        SYMDIR=$(dirname "$RESULT")
+        cd -P "$SYMDIR"
+        RESULT=$(readlink "$RESULT")
+    done
+
+    echo "$RESULT"
+}
+
+pathdirs()
+{
+    # get all dirs in $PATH
+    SPLIT=${PATH//:/$'\n'} # replace : (delim) with newline
+    echo "$SPLIT" | xargs ls -1d 2> /dev/null # remove dirs that don't exist
+}
+
+searchdirs()
+{
+    pathdirs
+    getswd
+}
+
+getcmds | while read -r COMMAND
+do
+    echo "${COMMAND#upvoter-}"
+done

@@ -1,14 +1,5 @@
 #!/usr/bin/env bash
 
-getcmds()
-{
-    # find all executable files/symlinks in $(searchdirs) that start with 'upvoter-'
-    # then basename them (yes, the -i is necessary)
-    searchdirs |
-    xargs -i find -L {} -name 'upvoter-*' -type f -maxdepth 1 -perm +111 2> /dev/null |
-    xargs -i basename {}
-}
-
 getswd()
 {
     dirname "$(here)"
@@ -29,17 +20,9 @@ here()
     echo "$RESULT"
 }
 
-pathdirs()
+list()
 {
-    # get all dirs in $PATH
-    SPLIT=${PATH//:/$'\n'} # replace : (delim) with newline
-    echo "$SPLIT" | xargs ls -1d 2> /dev/null # remove dirs that don't exist
-}
-
-searchdirs()
-{
-    pathdirs
-    getswd
+    "$(getswd)/upvoter-list" "$@"
 }
 
 snoo()
@@ -67,9 +50,9 @@ echo
 echo 'Commands can be any one of the following:'
 echo
 
-getcmds | while read -r COMMAND
+list | while read -r COMMAND
 do
-    echo "  -  ${COMMAND#upvoter-}"
+    echo "  -  $COMMAND"
 done
 
 echo
