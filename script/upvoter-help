@@ -47,9 +47,9 @@ version()
     "$(getswd)/upvoter-version" "$@"
 }
 
+echo
 echo 'upvoter is a command-line util that automatically upvotes your Reddit posts.'
 echo "Version: $(version)"
-echo 'Find us on GitHub at: https://github.com/jamesqo/upvoter'
 echo
 echo 'Basic usage: upvoter [command] [options]...'
 echo
@@ -63,3 +63,5 @@ done
 
 echo
 echo 'For more help on a specific command, type `upvoter [command] --help`.'
+echo
+echo 'Want to contribute? Find us on GitHub at https://github.com/jamesqo/upvoter'
