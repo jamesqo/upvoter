@@ -7,7 +7,8 @@ getswd()
 
 help()
 {
-    "$(getswd)/upvoter-help" "$@"
+    "$(getswd)/upvoter-help" "$@" 1>&2
+    exit 1
 }
 
 here()
@@ -32,6 +33,8 @@ run()
     type "$PROGRAM" &> /dev/null && exec "$PROGRAM" "$@"
 }
 
+[[ $# -gt 0 ]] || help
+
 case "$1" in
     '-?'|-h|--help)
         SUFFIX=help
@@ -48,7 +51,6 @@ shift
 
 PROGRAM=upvoter-$SUFFIX
 
-if ! run "$PROGRAM" "$@" && ! run "$(getswd)/$PROGRAM" "$@"; then
-    help 1>&2
-    exit 1
-fi
+run "$PROGRAM" "$@" ||
+run "$(getswd)/$PROGRAM" "$@" ||
+help
