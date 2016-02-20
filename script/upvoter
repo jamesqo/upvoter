@@ -2,14 +2,27 @@
 
 getswd()
 {
-    ACTUAL_PATH=$(readlink -f "${BASH_SOURCE[0]}") # resolve symlinks
-    SCRIPT_DIR=$(dirname "$ACTUAL_PATH")
-    echo "$SCRIPT_DIR"
+    dirname "$(here)"
 }
 
 help()
 {
     "$(getswd)/upvoter-help" "$@"
+}
+
+here()
+{
+    RESULT=${BASH_SOURCE[0]}
+
+    # resolve symlinks (readlink -f can't be used on OSX)
+    while [[ -h $RESULT ]]
+    do
+        SYMDIR=$(dirname "$RESULT")
+        cd -P "$SYMDIR"
+        RESULT=$(readlink "$RESULT")
+    done
+
+    echo "$RESULT"
 }
 
 run()

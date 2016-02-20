@@ -8,9 +8,22 @@ getcmds()
 
 getswd()
 {
-    ACTUAL_PATH=$(readlink -f "${BASH_SOURCE[0]}")
-    SCRIPT_DIR=$(dirname "$ACTUAL_PATH")
-    echo "$SCRIPT_DIR"
+    dirname "$(here)"
+}
+
+here()
+{
+    RESULT=${BASH_SOURCE[0]}
+
+    # resolve symlinks (readlink -f can't be used on OSX)
+    while [[ -h $RESULT ]]
+    do
+        SYMDIR=$(dirname "$RESULT")
+        cd -P "$SYMDIR"
+        RESULT=$(readlink "$RESULT")
+    done
+
+    echo "$RESULT"
 }
 
 pathdirs()
