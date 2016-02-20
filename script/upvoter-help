@@ -54,10 +54,11 @@ echo
 echo 'Basic usage: upvoter [command] [options]...'
 echo
 echo 'Commands can be any one of the following:'
+echo
 
 getcmds | while read -r COMMAND
 do
-    echo " - ${COMMAND#upvoter-}"
+    echo "  -  ${COMMAND#upvoter-}"
 done
 
 echo
